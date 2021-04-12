@@ -1,42 +1,34 @@
-import React, {Component} from 'react';
-import PropTypes from 'prop-types';
+import React, {useState} from 'react';
 
-class ListContacts extends Component {
-  static propTypes = {
-    contacts: PropTypes.array.isRequired,
-    onDeleteContact: PropTypes.func.isRequired
-  }
-  state = {
-    query: ''
-  }
+const ListContacts = ({contacts, removeContact}) => {
 
-  handleChange = (query) => {
-    this.setState(() => ({
-      query: query.trim()
-    }))
+
+  const [query, setQuery] = useState('')
+
+  const handleChange = (query) => {
+    setQuery(query.trim())
   }
 
-  clearQuery = () => {
-    this.handleChange('')
+  const clearQuery = () => {
+    handleChange('')
   }
-  render() {
 
-    const {query} = this.state;
-    const {contacts, removeContact} = this.props
+
 
     const showingContact = query === '' ? contacts : contacts.filter((c) => (
       c.name.toLowerCase().includes(query.toLowerCase())
     ))
+
     return (
       <div className='list-contacts'>
         <div className='list-contacts-top'>
-          <input className='search-contacts' type='text' value={query} placeholder='Search Contacts' onChange={e => this.handleChange(e.target.value)} />
+          <input className='search-contacts' type='text' value={query} placeholder='Search Contacts' onChange={e => handleChange(e.target.value)} />
         </div>
         {
           showingContact.length !== contacts.length && (
             <div className='showing-contacts'>
               <span>Now showing {showingContact.length} of {contacts.length}</span>
-              <button onClick={this.clearQuery}>Show all</button>
+              <button onClick={clearQuery}>Show all</button>
             </div>
           )
         }
@@ -57,9 +49,6 @@ class ListContacts extends Component {
         </ol>
       </div>
     )
-  }
-
-    
 }
 
 
