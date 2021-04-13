@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import ListContacts from './ListContacts';
 // import {usePrevious} from './utils/usePrevious';
 import * as ContactsAPI from './utils/ContactsAPI';
@@ -9,20 +9,20 @@ const App = () => {
   const [contacts, setContacts] = useState([])
 
     // Helper function
-    const usePrevious = (value) => {
-      const ref = useRef();
-      useEffect(() => {
-        ref.current = value;
-      });
-      return ref.current;
-    }
-  const prevContacts = usePrevious(contacts)
+  //   const usePrevious = (value) => {
+  //     const ref = useRef();
+  //     useEffect(() => {
+  //       ref.current = value;
+  //     });
+  //     return ref.current;
+  //   }
+  // const prevContacts = usePrevious(contacts)
 
-  console.log(prevContacts, '🔸');
+  // console.log(prevContacts, '🔸');
 
   const removeContact = (contact) => {
     setContacts(prevContacts => {
-      prevContacts.filter(c => {
+      return prevContacts.filter(c => {
         return c.id !== contact.id
       })
     })
