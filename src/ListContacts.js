@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import {Link} from 'react-router-dom'
 
 const ListContacts = ({contacts, removeContact}) => {
 
@@ -23,6 +24,9 @@ const ListContacts = ({contacts, removeContact}) => {
       <div className='list-contacts'>
         <div className='list-contacts-top'>
           <input className='search-contacts' type='text' value={query} placeholder='Search Contacts' onChange={e => handleChange(e.target.value)} />
+          <Link to='/create' className='add-contact'>
+            Add Contact
+          </Link>
         </div>
         {
           showingContact.length !== contacts.length && (

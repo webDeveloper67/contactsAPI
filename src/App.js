@@ -1,24 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import ListContacts from './ListContacts';
-// import {usePrevious} from './utils/usePrevious';
+import {Route} from 'react-router-dom';
 import * as ContactsAPI from './utils/ContactsAPI';
+import CreateContact from './CreateContact';
 
 
 const App = () => {
 
   const [contacts, setContacts] = useState([])
-
-    // Helper function
-  //   const usePrevious = (value) => {
-  //     const ref = useRef();
-  //     useEffect(() => {
-  //       ref.current = value;
-  //     });
-  //     return ref.current;
-  //   }
-  // const prevContacts = usePrevious(contacts)
-
-  // console.log(prevContacts, '🔸');
 
   const removeContact = (contact) => {
     setContacts(prevContacts => {
@@ -30,6 +19,13 @@ const App = () => {
     ContactsAPI.remove(contact)
   }
 
+  const createContact = async contact => {
+    const newContact = await ContactsAPI.create(contact)
+    setContacts(prevContacts => {
+      return prevContacts.concat([newContact])
+    })
+  }
+
   useEffect(() => {
     ContactsAPI.getAll().then((contacts) => {
       setContacts(contacts)
@@ -37,11 +33,19 @@ const App = () => {
   }, [])
 
 
+
+
   return (
     <div>
-      { contacts && contacts.length !== 0 &&
+      <Route exact path='/' render={() => (
         <ListContacts contacts={contacts} removeContact={removeContact} />
-      }
+      )} />
+      <Route path='/create' render={({history}) => (
+        <CreateContact onCreateContact={(contact) => {
+          createContact(contact)
+          history.push('/')
+        }} />
+      )} />
     </div>
   );
 }
